@@ -1,0 +1,13 @@
+.loader-overlay {
+    position: fixed;
+    display: flex;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: grey;
+    opacity: .3;
+
+    mat-spinner {
+        margin: auto;
+    }
+}

@@ -1,0 +1,58 @@
+<h1 mat-dialog-title> Edit Employees </h1>
+<div mat-dialog-content>
+<form [formGroup]="formGroup">
+    <mat-card formArrayName="employees" *ngFor="let employee of employees; let i=index">
+        <mat-card-title> Employee </mat-card-title>
+        <mat-card-content class="summary" [formGroupName]="i">
+            <mat-form-field appearance="outline">
+                <mat-label> Employee name </mat-label>
+                <input matInput type="text" formControlName="name">
+                <mat-error> Field is reqquired </mat-error>
+            </mat-form-field>
+                <mat-form-field appearance="outline">
+                <mat-label> Employee hourly rate </mat-label>
+                <input matInput type="text" formControlName="hourlyRate">
+                <p matSuffix> $ </p>
+                <mat-error> Invalid format </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label> Employee status </mat-label>
+                <input matInput type="text" readonly [value]="formGroup?.value?.employees[i]?.status ? 'Active' : 'Inactive'">
+                <mat-slide-toggle matSuffix formControlName="status"></mat-slide-toggle>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label> Employee overtime hourly rate </mat-label>
+                <input matInput type="text" formControlName="overtimeHourlyRate">
+                <p matSuffix> $ </p>
+                <mat-error> Invalid format </mat-error>
+            </mat-form-field>
+        </mat-card-content>
+    
+        <mat-card-title> Shifts </mat-card-title>
+        <mat-card-content class="shifts" [formGroupName]="i">
+            <div formArrayName="shifts" *ngFor="let shift of employee.shifts; let j=index">
+                <div [formGroupName]="j">
+                    <mat-form-field appearance="outline">
+                        <mat-label> Clock in time </mat-label>
+                        <input matInput [ngxMatDatetimePicker]="clockInPicker" placeholder="Choose a date" formControlName="clockIn" readonly>
+                        <mat-datepicker-toggle matSuffix [for]="$any(clockInPicker)"></mat-datepicker-toggle>
+                        <ngx-mat-datetime-picker #clockInPicker></ngx-mat-datetime-picker>
+                        <mat-error> Invalid format </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label> Clock out time </mat-label>
+                        <input matInput [ngxMatDatetimePicker]="clockOutPicker" placeholder="Choose a date" formControlName="clockOut" readonly>
+                        <mat-datepicker-toggle matSuffix [for]="$any(clockOutPicker)"></mat-datepicker-toggle>
+                        <ngx-mat-datetime-picker #clockOutPicker></ngx-mat-datetime-picker>
+                        <mat-error> Invalid format </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</form>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button [mat-dialog-close]="false"> Cancel </button>
+  <button mat-raised-button color="primary" (click)="save()"> Save </button>
+</div>
